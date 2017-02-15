@@ -1,0 +1,35 @@
+TMOBILE CHECKOUT PROCESS
+Step #1 : Collecting the personal information
+http://localhost:3000/checkout/personalinfo POST TAKING THE FOLLOWING STRINGS AS INPUTS
+																	#1) First Name
+																	#2) Last Name
+																	#3) Email Address
+																	#4) Phone Number
+																	#5) Current Carrier
+
+Step #2.1 : Collecting the personal credit type range
+http://localhost:3000/checkout/credit GET RETURNS JSON [AWESOME-CREDIT] [AVERAGE-CREDIT] [POOR-CREDIT]
+Step #2.2 : Saving the personal credit type range in to the DB
+http://localhost:3000/checkout/credit POST TAKING THE FOLLOWING STRINGS AS INPUTS
+															  #1) USER CREDIT RATINGS SELECTED
+
+Step #3 : Shipping and Billing
+http://localhost:3000/checkout/billandship POST TAKING THE FOLLOWING STRINGS AS INPUTS
+																	#1) Shipping Type (Standard, Free & Overnight, $11.99)
+																	#2) Shipping Address Line 1
+																	#3) Shipping Address Line 2
+																	#4) Ship City
+																	#5) Ship State
+																	#6) Ship Zip
+																	#7) Billing Address Line 1
+																	#8) Billing Address Line 2
+																	#9) Bill City
+																	#10)Bill City
+																	#11)Bill State
+																	#12)Bill Zip
+																	#13) Name on Card
+																	#14) Enter valid credit card number
+																	#15) Expiration Date
+																	#15) CVV
+
+STEP #4: Send the cart and create a new order.
