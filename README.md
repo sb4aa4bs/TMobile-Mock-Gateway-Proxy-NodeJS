@@ -14,18 +14,23 @@ This is the server side code for tmobile-server.
 
 * Configuration
 
-    node and npm is a must on your machine, so install
-    Once you get or clone the code go to the directory and then do $npm install
-    This command should get all the packages neccesary to run
+    node and npm is a must on your machine, so install it
+    Once you get or clone the code go to the tmobile-server directory and then do $npm install
+    This command should get all the packages neccesary to run. Might take 3/4 minutes!
 
 * Dependencies
 * Database configuration
     make sure you install mysql 5.6
     create a user ep/ep if you do not have Elastic Path installed. Otherwise, no need for this step
-    switch do the database using 'use commercedb'
+    CREATE USER 'ep'@'%' IDENTIFIED BY 'ep';
 
+    log out as root and log in as ep/ep now
+
+    If you do not have commercedb go and create database commercedb
+
+    Locate the sql files under the ddl folder
     ddl folder has the the sql files to create the necessary data tables/records
-    run the two ddl files using  $>mysql source c:\xx.\\.sql
+    run the two ddl files using  $>mysql$ source c:\xx.\\.sql
     make sure you have the same database-name and the relevant password in the config/config.json first section
 * How to run tests
     $npm test
