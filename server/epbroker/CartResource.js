@@ -18,13 +18,15 @@ module.exports= {
     },
 
     updateItemInCart: function (request, reply) {
-        var cart_id = request.payload.cart_id;
         var item_id = request.payload.item_id;
-        var quantity = request.payload.quantity;
-        console.log('Cart Dao: update() with object cart_id: ' + cart_id + ',item_id=' + item_id + ',quantity=' + quantity);
+        var initialNumberOfItems = request.payload.initialNumberOfItems;
+        var updatedNumberOfItems = request.payload.updatedNumberOfItems;
+        console.log('Cart Dao: update() with object item_id=' + item_id + ',quantity=' + initialNumberOfItems + 'updatedNumberOfItems' + updatedNumberOfItems);
         var response = {'message': 'Cart update successful..', 'error': 0};
-        // TODO: RSG Cart.update(cart_id,item_id, qty);
-        reply(response).code(200);
+        module.exports.updateEPItemInCart(item_id,initialNumberOfItems,updatedNumberOfItems, reply, function(reply){
+            reply(response).code(200);
+        });
+
     },
 
     deleteItemFromCart: function (request, reply) {
@@ -113,6 +115,166 @@ module.exports= {
                 reply(default_cart).code(200);
             }
         });
+
+    },
+
+
+    /*
+     *  update EP Item Into Cart
+     */
+    updateEPItemInCart: function (item_id,initialNumberOfItems,updatedNumberOfItems, reply) {
+
+        httprequest.post(base_uri + '/cortex/oauth2/tokens', {
+                form: {
+                    grant_type: 'password',
+                    role: 'PUBLIC',
+                    scope: 'mobee',
+                    username: '',
+                    password: ''
+                }
+            },
+            function (err, resp, body) {
+                if(err){
+                    console.log('Failed to get auth-token.');
+                    return;
+                }
+                console.log(body);
+                var auth_res = JSON.parse(body);
+                auth_token = 'bearer ' + auth_res.access_token;
+                httprequest({
+                    headers: {
+                        'Authorization': auth_token,
+                        'Accept': 'application/json'
+                    },
+                    uri: base_uri + '/cortex/carts/mobee/default/lineitems/items/mobee/' + item_id + '?followlocation',
+                    method: 'POST',
+                    json: {quantity: initialNumberOfItems}
+                }, function (err, res, body) {
+                    if(err){
+                        console.log('Failed to add to cart.');
+                        return;
+                    }
+                    console.log(body);
+                    console.log(body.links);
+                    console.log(body.quantity);
+                    var cart_links = body.links;
+                    var text = "";
+                    var i;
+                    for (i = 0; i < cart_links.length; i++) {
+                        text += 'uri =' + cart_links[i].uri + '\n';
+                    }
+                    console.log(text);
+
+                    httprequest({
+                        headers: {
+                            'Authorization': auth_token,
+                            'Accept': 'application/json'
+                        },
+                        uri: base_uri + '/cortex/carts/mobee/default?',
+                        method: 'GET'
+                    }, function (err, res, body) {
+                        if(err){
+                            console.log('Failed getting default cart.');
+                            return;
+                        }
+                        console.log(body);
+                        var default_cart = JSON.parse(body);
+                        console.log(default_cart["total-quantity"]);
+                        console.log(default_cart["self"]);
+                        console.log(default_cart["links"]);
+                        var lineItemsLink;
+                        var cart_links_array = default_cart["links"];
+                        var text = "";
+                        var i;
+                        for (i = 0; i < cart_links_array.length; i++) {
+                            if (cart_links_array[i].rel === 'lineitems') {
+                                lineItemsLink = cart_links_array[i].href;
+                                console.log('Line Items Link from Cart:' + lineItemsLink);
+                                break;
+                            }
+                        }
+                        console.log('Attempting to get line items');
+                        httprequest({
+                            headers: {
+                                'Authorization': auth_token,
+                                'Accept': 'application/json'
+                            },
+                            uri: lineItemsLink,
+                            method: 'GET'
+                        }, function (err, res, body) {
+                            if(err){
+                                console.log('Failed to get line items in the cart!!!');
+                                return;
+                            }
+                            console.log('Succesful, body:' + body);
+                            var cart_lineitems = JSON.parse(body);
+                            console.log(cart_lineitems["self"]);
+                            console.log(cart_lineitems["links"]);
+
+                            var line_items_links_array = cart_lineitems["links"];
+                            var lineItemLinks = [];
+                            var text = "";
+                            var i;
+                            for (i = 0; i < line_items_links_array.length; i++) {
+                                if (line_items_links_array[i].rel === 'element') {
+                                    var j = 0;
+                                    lineItemLinks[j++] = line_items_links_array[i].href;
+                                    console.log(lineItemLinks + '\n');
+                                }
+                            }
+
+                            httprequest({
+                                headers: {
+                                    'Authorization': auth_token,
+                                    'Accept': 'application/json'
+                                },
+                                uri: lineItemLinks[0],
+                                method: 'PUT',
+                                json: {quantity: updatedNumberOfItems}
+                            }, function (err, res, body) {
+                                if(err){
+                                    console.log('Failed to get line item!!!');
+                                    return;
+                                }
+                                console.log('Succesfully updated.');
+
+                                httprequest({
+                                    headers: {
+                                        'Authorization': auth_token,
+                                        'Accept': 'application/json'
+                                    },
+                                    uri: base_uri + '/cortex/carts/mobee/default?',
+                                    method: 'GET'
+                                }, function (err, res, body) {
+                                    if (err) {
+                                        console.log('failed getting default cart.');
+                                        return;
+                                    }
+                                    console.log(body);
+                                    var default_cart = JSON.parse(body);
+                                    console.log('updated item quantity:' + default_cart["total-quantity"]);
+                                    console.log(default_cart["self"]);
+                                    console.log(default_cart["links"]);
+                                    var lineItemsLink;
+                                    var cart_links_array = default_cart["links"];
+                                    var text = "";
+                                    var i;
+                                    for (i = 0; i < cart_links_array.length; i++) {
+                                        if (cart_links_array[i].rel === 'lineitems') {
+                                            lineItemsLink = cart_links_array[i].href;
+                                            console.log('Line Items Link from Cart:' + lineItemsLink);
+                                            break;
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            }
+        );
+        var response = {'message': 'Added Item to Cart..','error': 0};
+        reply(response);
 
     },
 
