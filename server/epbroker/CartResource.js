@@ -1,6 +1,7 @@
+var httprequest = require('request');
 var JWT   = require('jsonwebtoken');
 var decoded;
-//TODO RSG var Cart = models.cart;
+var base_uri = 'http://ec2-35-164-110-172.us-west-2.compute.amazonaws.com:9080';
 
 module.exports= {
 
@@ -65,7 +66,7 @@ module.exports= {
         var message = 'ELASTIC PATH addCart failure.!!';
         var response = {'message': message, 'error': 500};
 
-        request({
+        httprequest({
             headers: {
                 'Authorization': 'bearer ' + auth_token,
                 'Accept': 'application/json'
@@ -95,7 +96,7 @@ module.exports= {
         var message = 'ELASTIC PATH getCart failure.!!';
         var response = {'message': message, 'error': 500};
 
-        request({
+        httprequest({
             headers: {
                 'Authorization': 'bearer ' + auth_token,
                 'Accept': 'application/json'
@@ -110,7 +111,7 @@ module.exports= {
                 console.log(default_cart["total-quantity"]);
                 console.log(default_cart["self"]);
                 console.log('ELASTIC PATH getCart() success..');
-                reply(response).code(200);
+                reply(default_cart).code(200);
             }
         });
 
