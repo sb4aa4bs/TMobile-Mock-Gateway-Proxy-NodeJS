@@ -5,6 +5,7 @@ var vision=require('vision');
 var productroutes=require('./server/controllers/productroutes');
 var accessoryroutes=require('./server/controllers/accessoryroutes');
 var cartroutes=require('./server/controllers/cartroutes');
+var checkoutroutes=require('./server/controllers/checkoutroutes');
 
 /*
  var redisClient = require('redis-connection')();
@@ -139,6 +140,7 @@ server.register([
     server.route(productroutes);
     server.route(accessoryroutes);
     server.route(cartroutes);
+    server.route(checkoutroutes);
 
 });
 
