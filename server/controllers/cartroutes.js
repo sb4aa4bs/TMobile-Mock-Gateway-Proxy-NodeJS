@@ -75,11 +75,12 @@ module.exports=[
 
                  payload:{
                  cart_id:Joi.string().required(),
-                 item_id:Joi.string().required()
-                 },
+                 item_id:Joi.string().required(),
+                  nitems:Joi.string().required(),
+                 }/*,
                 headers: Joi.object({
                     'authorization': Joi.string().required()
-                }).unknown()
+                }).unknown()*/
             },
 
             description:'Add cart with an item',
