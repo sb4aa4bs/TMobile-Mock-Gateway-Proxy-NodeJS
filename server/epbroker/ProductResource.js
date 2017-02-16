@@ -32,7 +32,7 @@ module.exports={
         var id=request.params.id;
         console.log('ProductResource: getProductById() with object id: ' + id );
         var response = {'message': 'getProductById..','error': 0};
-        // TODO: RSG call ELASTIC PATH
+
         reply(response).code(200);
     },
 
