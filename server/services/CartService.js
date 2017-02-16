@@ -1,4 +1,4 @@
-var cartDao = require('../daos/CartDao');  //RSG 02/12/2017 added this service
+var cartDao = require('../epbroker/CartResource');  //use this '../daos/CartResource'//RSG 02/12/2017 added this service
 
 module.exports={
 
