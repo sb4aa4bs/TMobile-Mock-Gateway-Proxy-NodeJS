@@ -1,0 +1,137 @@
+const nodemailer = require('nodemailer');
+var authentication=require('../controllers/authentication');
+var productService = require('../services/ProductService');  //RSG 02/13/2017 added a service
+var checkoutService = require('../services/CheckoutService');
+var Joi= require('joi');
+module.exports=[
+  {
+        method:'POST',
+        path:'/checkout/personalinfo/',
+        config:{
+            auth:false,
+            handler:checkoutService.savePersonalInfo,
+            description: 'Stores the customer personal information on the commercedb',
+            notes: 'A POST Request Storing the customer personal information on the commercedb',
+            tags: ['api'],
+            plugins:{
+                'hapi-swagger':{
+                    responseMessages:[
+                        {code:400,message:'Bad Request'},
+                        {code:500,message:'Internal server error'}
+                    ]
+                }
+            },
+            validate:{
+                payload:{
+                    lastname:Joi.string().required(),
+                    firstname:Joi.string().required(),
+                    email:Joi.string().required(),
+                    phone:Joi.string().required(),
+                    currentcarrier:Joi.string().required(),
+                },
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
+
+            description:'Stores the customer personal information on the commercedb',
+            notes: 'Stores the customer personal information on the commercedb',
+            tags: ['api']
+            }
+        },
+    {
+        method:'GET',
+        path:'/checkout/creditratingtypes',
+        config: {
+            auth: false,
+            handler: checkoutService.getCreditScoreRangeType,
+            description: 'Get all possible credit score range type',
+            notes: 'A GET Request to Get all possible credit score range type',
+            tags: ['api'],
+            plugins: {
+                'hapi-swagger': {
+                    responseMessages: [
+                        {code: 400, message: 'Bad Request'},
+                        {code: 500, message: 'Internal server error'}
+                    ]
+                }
+            }
+        }
+    },
+    {
+        method:'POST',
+        path:'/checkout/creditrating/',
+        config:{
+            auth:false,
+            handler:checkoutService.saveCreditScoreRangeType,
+            description: 'Stores the Customer credit score range type',
+            notes: 'A POST Request to Stores the customer personal information',
+            tags: ['api'],
+            plugins:{
+                'hapi-swagger':{
+                    responseMessages:[
+                        {code:400,message:'Bad Request'},
+                        {code:500,message:'Internal server error'}
+                    ]
+                }
+            },
+            validate:{
+                payload:{
+                    creditscorerangetype:Joi.string().required()
+                },
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
+
+            description:'Stores the Customer credit score range type',
+            notes: 'Stores the Customer credit score range type',
+            tags: ['api']
+            }
+        },
+    {
+        method:'POST',
+        path:'/checkout/billandship/',
+        config:{
+            auth:false,
+            handler:checkoutService.saveBillAndShipInfo,
+            description: 'Stores the customer shipping and billing information on the commercedb',
+            notes: 'A POST Request Stores the customer shipping and billing information on the commercedb',
+            tags: ['api'],
+            plugins:{
+                'hapi-swagger':{
+                    responseMessages:[
+                        {code:400,message:'Bad Request'},
+                        {code:500,message:'Internal server error'}
+                    ]
+                }
+            },
+            validate:{
+                payload:{
+                    shiptype:Joi.string().required(),
+                    shipaddress1:Joi.string().required(),
+                    shipaddress2:Joi.string().required(),
+                    shipcity:Joi.string().required(),
+                    shipstate:Joi.string().required(),
+                    shipzip:Joi.string().required(),
+                    billaddress1:Joi.string().required(),
+                    billaddress2:Joi.string().required(),
+                    billcity:Joi.string().required(),
+                    billstate:Joi.string().required(),
+                    billzip:Joi.string().required(),
+                    customername:Joi.string().required(),
+                    cardno:Joi.string().required(),
+                    expirydate:Joi.string().required(),
+                    cvv:Joi.string().required()
+                },
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
+
+            description:'Stores the customer shipping and billing information on the commercedb',
+            notes: 'Stores the customer shipping and billing information on the commercedb',
+            tags: ['api']
+        }
+    }
+];
