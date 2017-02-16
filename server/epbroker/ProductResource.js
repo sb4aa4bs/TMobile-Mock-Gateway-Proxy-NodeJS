@@ -2,6 +2,10 @@
  * Created by prokarma on 2/14/2017.
  */
 
+/**
+ * Created by prokarma on 2/14/2017.
+ */
+
 var httprequest = require('request');
 var base_uri = 'http://ec2-35-164-110-172.us-west-2.compute.amazonaws.com:9080';
 //var base_uri = 'http://localhost:9080';
@@ -37,14 +41,19 @@ module.exports={
         var keyword=request.params.keyword;
         console.log('ProductResource: searchProductByKeyWord() with object keyword: ' + keyword );
         var response = {'message': 'getProductById..','error': 0};
-        module.exports.searchEPItems(keyword, 'mobee', function (response) {
-            reply(response).code(200);
-            console.log('Date response returned from the call : ' + response);
+        var i=0;
+        module.exports.searchEPItems(keyword, 'mobee', function (data) {
+            //RSG reply(response).code(200);
+            i++;
+            //console.log('Date response returned from call back : ' + data);
+            if (i===5) reply(data).code(200);
         });
     },
 
-    searchEPItems : function (searchString, storeId, callback) {
+    searchEPItems:function (searchString, storeId,callback) {
 
+        var productList = [];
+        //console.log('searchItems..........');
         var requestData = {
             'keywords': searchString, 'page-size': '5'
         };
@@ -54,32 +63,35 @@ module.exports={
                 headers: {'Authorization': 'bearer ' + auth_token, 'Content-type': 'application/json'}
             },
             function (err, res, body) {
-
+                if (err) {console.log('Cannot communicate to ELASTIC PATH');return;}
                 var items = body.links;
                 for (var item in items) {
                     var obj = items[item];
                     var type = obj.type;
+                    //console.log('type..........' + type);
                     if (type === 'elasticpath.items.item') {
                         var uri = obj.uri;
                         if (uri.indexOf('/items/mobee/') > -1) {
                             var uriArray = uri.split('/');
                             var itemId = uriArray[3];
-                            module.exports.getEPItem(itemId, 'mobee', function (data) {
-                                callback(data);
+                            module.exports.getItem(itemId, 'mobee', function (product) {
+                                productList.push(product);
+                                callback(productList);
+
+
                             });
+
                         }
                     }
                 }
             });
-
     },
+    getItem : function (itemId, storeId, callback) {
 
+        console.log('Starting getItem..........');
+        var Product = {};
 
-    getEPItem : function (itemId, storeId, callback) {
-
-        var itemList = [];
-
-        itemList['itemId'] = itemId;
+        Product['itemId'] = itemId;
 
         httprequest(base_uri + '/cortex/availabilities/items/' + storeId + '/' + itemId,
             {
@@ -87,7 +99,7 @@ module.exports={
                 headers: {'Authorization': 'bearer ' + auth_token, 'Content-type': 'application/json'}
             },
             function (err, res, body) {
-                itemList['availability'] = body['state'];
+                Product['availability'] = body['state'];
                 // Display Name of Item
 
                 httprequest(base_uri + '/cortex/itemdefinitions/' + storeId + '/' + itemId,
@@ -96,7 +108,7 @@ module.exports={
                         headers: {'Authorization': 'bearer ' + auth_token, 'Content-type': 'application/json'}
                     },
                     function (err, res, body) {
-                        itemList['display-name'] = body['display-name'];
+                        Product['display-name'] = body['display-name'];
                         // Code of Item
 
                         httprequest(base_uri + '/cortex/lookups/items/' + storeId + '/' + itemId,
@@ -105,7 +117,7 @@ module.exports={
                                 headers: {'Authorization': 'bearer ' + auth_token, 'Content-type': 'application/json'}
                             },
                             function (err, res, body) {
-                                itemList['code'] = body['code'];
+                                Product['code'] = body['code'];
 
                                 // Price of Item
 
@@ -118,16 +130,16 @@ module.exports={
                                         }
                                     },
                                     function (err, res, body) {
-                                        itemList['purchase-price'] = body['purchase-price'];
-                                        itemList['list-price'] = body['list-price'];
-                                        console.log('ItemList:' + itemList);
-                                        callback(itemList);
+                                        Product['purchase-price'] = body['purchase-price'];  //TODO RSG parse this array list , get the object with the american price
+                                        Product['list-price'] = body['list-price'];          //TODO RSG parse this array list , get the object with the american price
+                                        //console.log('\tProduct=' + Product['code'] + ',itemid=' + Product['itemId'] + ',price=' + Product['list-price']);
+                                        callback(Product);
+
                                     });
                             });
                     });
             });
     }
-
-
-
 };
+
+
