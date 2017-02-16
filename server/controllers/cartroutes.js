@@ -104,17 +104,17 @@ module.exports=[
                 }
             },
             validate:{
-                params:{
+                /*params:{
                     id:Joi.string().alphanum().required()
-                },/* RSG why node not starting up
+                }*///,/* RSG why node not starting up */
                 payload:{
-                    cart_id:Joi.string().required(),
                     item_id:Joi.string().required(),
-                    quantity:Joi.string().required
-                },*/
-                headers: Joi.object({
+                    initialNumberOfItems:Joi.string().required(),
+                    updatedNumberOfItems:Joi.string().required(),
+                }
+                /*headers: Joi.object({
                     'authorization': Joi.string().required()
-                }).unknown()
+                }).unknown()*/
             },
 
             description:'Update a cart with item and quantity',
