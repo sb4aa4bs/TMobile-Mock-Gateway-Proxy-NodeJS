@@ -3,13 +3,13 @@ var cartDao = require('../epbroker/CartResource');  //use this '../daos/CartReso
 module.exports={
 
     addItemToCart: function(request,response)  {
-        cartDao.add(request,response);
+        cartDao.addItemToCart(request,response);
     },
     updateItemInCart: function(request,response)  {
-        cartDao.update(request,response);
+        cartDao.updateItemInCart(request,response);
     },
     deleteItemFromCart: function(request,response)  {
-        cartDao.delete(request,response);
+        cartDao.deleteItemFromCart(request,response);
     },
     getCart: function(request,response)  {
         cartDao.getCart(request,response);
