@@ -10,10 +10,10 @@ module.exports= {
         var cart_id = request.payload.cart_id;
         var item_id = request.payload.item_id;
         var nitems  = request.payload.nitems;
-        console.log('Cart Dao: add() with object cart_id: ' + cart_id + ',item_id=' + item_id);
-        console.log('Cart Dao: getCart() for id : ' + id);
+        console.log('Cart Dao: add() with object cart_id: ' + cart_id + ',item_id=' + item_id +',nitems=' + nitems);
+        console.log('Cart Dao: getCart() for card_id : ' + cart_id);
         // make call to ELASTIC PATH
-        module.exports.addEPItemToCart(auth_token,item_id,nitems,reply);
+        module.exports.addEPItemToCart(cart_id,item_id,nitems,reply);
 
     },
 
@@ -71,7 +71,7 @@ module.exports= {
                 'Authorization': 'bearer ' + auth_token,
                 'Accept': 'application/json'
             },
-            uri: base_uri + '/cortex/carts/mobee/default?',
+            uri: base_uri + '/cortex/carts/mobee/default/lineitems/items/mobee/' + itemId + '?followlocation',
             method: 'POST',
             json: {quantity: numberOfItems}
         }, function (err, res, body) {
@@ -80,9 +80,8 @@ module.exports= {
                 console.log(body);
                 console.log(body.links);
                 console.log(body.quantity);
-                console.log(err);
                 console.log('ELASTIC PATH addCart() success..');
-                reply(response).code(200);
+                reply(body).code(200);
             }
         });
 
