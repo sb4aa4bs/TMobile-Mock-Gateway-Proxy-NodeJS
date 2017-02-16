@@ -41,7 +41,7 @@ module.exports=[
             },
             validate:{
                 params:{
-                    id:Joi.string().required()
+                    id:Joi.string().required()  //removed aplhanumeric.
                 }/*,
                 headers: Joi.object({
                     'authorization': Joi.string().required()
