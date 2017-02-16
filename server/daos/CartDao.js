@@ -5,7 +5,8 @@ var decoded;
 
 module.exports={
 
-    add: function(request,reply)  {
+
+    addItemToCart: function(request,reply)  {
         var cart_id=request.payload.cart_id;
         var item_id=request.payload.item_id;
         console.log('Cart Dao: add() with object cart_id: ' + cart_id + ',item_id=' + item_id);
@@ -15,7 +16,7 @@ module.exports={
 
     },
 
-    update: function(request,reply)  {
+    updateItemInCart: function(request,reply)  {
         var cart_id=request.payload.cart_id;
         var item_id=request.payload.item_id;
         var quantity    =request.payload.quantity;
@@ -25,7 +26,7 @@ module.exports={
         reply(response).code(200);
     },
 
-    delete: function(request,reply)  {
+    deleteItemFromCart: function(request,reply)  {
         var cart_id=request.payload.cart_id;
         var item_id=request.payload.item_id;
         console.log('Cart Dao: delete() with object cart_id: ' + cart_id + 'item_id=' + item_id);
