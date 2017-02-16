@@ -41,7 +41,7 @@ module.exports=[
             },
             validate:{
                 params:{
-                    id:Joi.string().alphanum().required()
+                    id:Joi.string().required()
                 }/*,
                 headers: Joi.object({
                     'authorization': Joi.string().required()
