@@ -1,7 +1,6 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -15,8 +14,9 @@ SET time_zone = "+00:00";
 -- Table structure for table `order`
 --
 
-DROP TABLE order;
-DROP TABLE order_details;
+-- DROP TABLE order_details;
+-- DROP TABLE order;
+
 CREATE TABLE IF NOT EXISTS `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cart_id` varchar(64) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   KEY `cart_id` (`cart_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-/*
+
 --
 -- Table structure for table `order_details`
 --
