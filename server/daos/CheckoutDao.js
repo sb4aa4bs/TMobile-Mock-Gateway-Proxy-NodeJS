@@ -1,5 +1,8 @@
 var models  = require('../models');
-var Product = models.product;
+var Order = models.order;
+var OrderDetails = model.order_details;
+Order.hasMany(Order_Details);
+
 
 module.exports={
 
@@ -121,7 +124,19 @@ module.exports={
             +', billstate=' +billstate +', billzip=' +billzip +', customername=' +customername,
             +', cardno=' +cardno +', expirydate=' +expirydate +', expirydate=' +expirydate
         );
-        //TO DO - SAVE
+        // create an instance
+        var order = Order.build(payload);
+        // persist an instance
+        order.save()
+            .error(function(err) {
+                console.log('Order save error !!! ' + err);
+                reply('Order save error !!! ' + err).code(500);
+                return;
+            })
+            .success(function() {
+                console.log('Save successful...');
+            });
+
 
         var response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, Billing And Credit Card Information in to the database','error': 0};
         reply(response).code(200);
