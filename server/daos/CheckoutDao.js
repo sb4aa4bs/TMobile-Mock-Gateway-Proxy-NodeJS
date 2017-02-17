@@ -1,7 +1,7 @@
 var models  = require('../models');
 var Order = models.order;
-var OrderDetails = model.order_details;
-Order.hasMany(Order_Details);
+var OrderDetails = models.order_details;
+Order.hasMany(OrderDetails);
 
 
 module.exports={
@@ -126,6 +126,10 @@ module.exports={
         );
         // create an instance
         var order = Order.build(payload);
+        order.cart_id=auth_token+'';
+        order.creditscorerangetype='SUPER-CREDIT';
+        order.store='TMOBILE-ONLINE';
+        console.log(order)
         // persist an instance
         order.save()
             .error(function(err) {
@@ -136,8 +140,6 @@ module.exports={
             .success(function() {
                 console.log('Save successful...');
             });
-
-
         var response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, Billing And Credit Card Information in to the database','error': 0};
         reply(response).code(200);
     },
