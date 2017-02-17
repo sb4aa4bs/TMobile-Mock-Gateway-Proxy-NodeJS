@@ -41,7 +41,7 @@ module.exports=[
         },
     {
         method:'GET',
-        path:'/checkout/creditratingtypes',
+        path:'/checkout/creditratingtypes/',
         config: {
             auth: false,
             handler: checkoutService.getCreditScoreRangeType,
