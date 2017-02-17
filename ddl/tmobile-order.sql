@@ -15,10 +15,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `order`
 --
 
+DROP TABLE order;
+DROP TABLE order_details;
 CREATE TABLE IF NOT EXISTS `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(40) NOT NULL,
   `cart_id` varchar(64) NOT NULL,
+        lastname varchar(24) not null,
+        firstname varchar(24) not null,
+        email varchar(24) not null,
+        phone varchar(18) not null,
+        currentcarrier varchar(18),
+        creditscorerangetype varchar(30) not null,
         shiptype varchar(64),
         shipaddress1 varchar(64),
         shipaddress2 varchar(64),
@@ -51,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `price` double not null,
   `tax` double not null,
   PRIMARY KEY (`id`),
-  KEY `product_id` (`product_id`)
+  KEY `order_id` (`order_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT= 1;
 
 --
@@ -59,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `order_details` (
 --
 ALTER TABLE `order_details`
   ADD CONSTRAINT `order_id_fk` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE;
-*/
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
