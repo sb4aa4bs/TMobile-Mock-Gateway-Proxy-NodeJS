@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 var authentication=require('../controllers/authentication');
 var productService = require('../services/ProductService');  //RSG 02/13/2017 added a service
 var checkoutService = require('../services/CheckoutService');
+var cartResource = require('../epbroker/CartResource');
 var Joi= require('joi');
 module.exports=[
   {
@@ -27,7 +28,7 @@ module.exports=[
                     firstname:Joi.string().required(),
                     email:Joi.string().required(),
                     phone:Joi.string().required(),
-                    currentcarrier:Joi.string().required(),
+                    currentcarrier:Joi.string().required()
                 },
                 headers: Joi.object({
                     'authorization': Joi.string().required()
@@ -55,9 +56,18 @@ module.exports=[
                         {code: 500, message: 'Internal server error'}
                     ]
                 }
-            }
+            },
+            validate: {
+            headers: Joi.object({
+                'authorization': Joi.string().required()
+            }).unknown()
+            },
+            description:'Get all possible credit score range type',
+            notes: 'Get all possible credit score range type',
+            tags: ['api']
         }
     },
+
     {
         method:'POST',
         path:'/checkout/creditrating/',
@@ -131,6 +141,89 @@ module.exports=[
 
             description:'Stores the customer shipping and billing information on the commercedb',
             notes: 'Stores the customer shipping and billing information on the commercedb',
+            tags: ['api']
+        }
+    },
+
+    {
+        method:'POST',
+        path:'/checkout/accesstoken/',
+        config:{
+            auth:false,
+            handler:cartResource.getNewAccessToken,
+            description: 'Get the Access Token for Accessing the Service',
+            notes: 'A POST Request to Get the Access Token for Accessing the Service',
+            tags: ['api'],
+            plugins:{
+                'hapi-swagger':{
+                    responseMessages:[
+                        {code:400,message:'Bad Request'},
+                        {code:500,message:'Internal server error'}
+                    ]
+                }
+            },
+            validate:{
+                payload:{
+                    bearertoken:Joi.string().required()
+                },
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
+
+            description:'Get the Access Token for Accessing the Service',
+            notes: 'Get the Access Token for Accessing the Service',
+            tags: ['api']
+        }
+    },
+
+    {
+        method:'POST',
+        path:'/checkout/submit/all/',
+        config:{
+            auth:false,
+            handler:checkoutService.saveAll,
+            description: 'Stores the Personal Information, Shipping, Billing And Credit Card Information on the commercedb',
+            notes: 'A POST Request Storing the Personal Information, Shipping, Billing And Credit Card Information on the commercedb',
+            tags: ['api'],
+            plugins:{
+                'hapi-swagger':{
+                    responseMessages:[
+                        {code:400,message:'Bad Request'},
+                        {code:500,message:'Internal server error'}
+                    ]
+                }
+            },
+            validate:{
+                payload:{
+                    lastname:Joi.string().required(),
+                    firstname:Joi.string().required(),
+                    email:Joi.string().required(),
+                    phone:Joi.string().required(),
+                    currentcarrier:Joi.string().required(),
+                    shiptype:Joi.string().required(),
+                    shipaddress1:Joi.string().required(),
+                    shipaddress2:Joi.string().required(),
+                    shipcity:Joi.string().required(),
+                    shipstate:Joi.string().required(),
+                    shipzip:Joi.string().required(),
+                    billaddress1:Joi.string().required(),
+                    billaddress2:Joi.string().required(),
+                    billcity:Joi.string().required(),
+                    billstate:Joi.string().required(),
+                    billzip:Joi.string().required(),
+                    customername:Joi.string().required(),
+                    cardno:Joi.string().required(),
+                    expirydate:Joi.string().required(),
+                    cvv:Joi.string().required()
+                },
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
+
+            description:'Stores the Personal Information, Shipping, Billing And Credit Card Information on the commercedb',
+            notes: 'Stores the Personal Information, Shipping, Billing And Credit Card Information on the commercedb',
             tags: ['api']
         }
     }
