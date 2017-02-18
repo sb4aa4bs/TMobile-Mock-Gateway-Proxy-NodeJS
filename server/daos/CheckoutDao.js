@@ -24,7 +24,7 @@ module.exports={
         var order = Order.build(payload);
         order.cart_id=auth_token.authorization;
         order.store='TMOBILE-ONLINE-STORE';
-        order.creditscorerangetype='SUPER-CREDIT';
+        order.creditscorerangetype='AWESOME-CREDIT';
         console.log(order);
         // persist an instance
         order.save()
@@ -72,7 +72,7 @@ module.exports={
         var order = Order.build(payload);
         order.cart_id=auth_token.authorization;
         order.store='TMOBILE-ONLINE-STORE';
-        order.creditscorerangetype='SUPER-CREDIT';
+        order.creditscorerangetype='AWESOME-CREDIT';
         order.lastname = '';
         order.firstname = '';
         order.email = '';
@@ -129,7 +129,7 @@ module.exports={
         var order = Order.build(payload);
         order.cart_id=auth_token.authorization;
         order.store='TMOBILE-ONLINE-STORE';
-        order.creditscorerangetype='SUPER-CREDIT';
+        order.creditscorerangetype='AWESOME-CREDIT';
         order.lastname = '';
         order.firstname = '';
         order.email = '';
@@ -196,7 +196,7 @@ module.exports={
         // create an instance of order model
         var order = Order.build(payload);
         order.cart_id=auth_token.authorization;
-        order.creditscorerangetype='SUPER-CREDIT';
+        order.creditscorerangetype='AWESOME-CREDIT';
         order.store='TMOBILE-ONLINE-STORE';
         console.log(order);
         // persist an instance
