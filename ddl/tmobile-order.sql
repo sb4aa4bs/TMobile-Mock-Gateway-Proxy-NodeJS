@@ -39,6 +39,8 @@ CREATE TABLE `order` (
   `expirydate` varchar(64) DEFAULT NULL,
   `cvv` varchar(64) DEFAULT NULL,
   `store` varchar(24) NOT NULL,
+  `createdAt` varchar(64) DEFAULT NULL,
+  `updatedAt` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cart_id` (`cart_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
