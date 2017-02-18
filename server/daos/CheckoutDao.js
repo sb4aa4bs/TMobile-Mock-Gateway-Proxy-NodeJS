@@ -11,7 +11,7 @@ module.exports={
      */
     savePersonalInfo: function (request,reply){
         var auth_token = request.headers;
-        console.log('Authorization Token : ' +auth_token.authorization)
+        console.log('Authorization Token : ' +auth_token.authorization);
         var payload = request.payload;
         var lastname = payload.lastname;
         var firstname = payload.firstname;
@@ -31,7 +31,7 @@ module.exports={
      */
     getCreditScoreRangeType: function(request, reply){
         var auth_token = request.headers;
-        console.log('Authorization Token : ' +auth_token.authorization)
+        console.log('Authorization Token : ' +auth_token.authorization);
         console.log('checkoutDao :::: getCreditScoreRangeType()');
         //TODO: RSG use this code if you want to read from DB
         //TO DO - GET
@@ -45,7 +45,7 @@ module.exports={
      */
     saveCreditScoreRangeType: function(request, reply){
         var auth_token = request.headers;
-        console.log('Authorization Token : ' +auth_token.authorization)
+        console.log('Authorization Token : ' +auth_token.authorization);
         var payload = request.payload;
         var creditscorerangetype = payload.creditscorerangetype;
         console.log('checkoutDao :::: saveCreditScoreRangeType() : creditscorerangetype : ' + creditscorerangetype);
@@ -60,7 +60,7 @@ module.exports={
      */
     saveBillAndShipInfo: function (request,reply){
         var auth_token = request.headers;
-        console.log('Authorization Token : ' +auth_token.authorization)
+        console.log('Authorization Token : ' +auth_token.authorization);
         var payload = request.payload;
         var shiptype = payload.shiptype;
         var shipaddress1 = payload.shipaddress1;
@@ -76,7 +76,7 @@ module.exports={
         var customername = payload.customername;
         var cardno = payload.cardno;
         var expirydate = payload.expirydate;
-        var cvv = payload.cvv
+        var cvv = payload.cvv;
         console.log('checkoutDao :::: saveBillAndShipInfo() : shiptype=' +shiptype +', shipaddress1=' +shipaddress1
             +', shipaddress2=' +shipaddress2 +', shipcity=' +shipcity +', shipstate=' +shipstate +', shipzip=' +shipzip
             +', billaddress1=' +billaddress1 +', billaddress2=' +billaddress2 +', billcity=' +billcity,
@@ -92,8 +92,10 @@ module.exports={
      *  Save the Customer's Personal Information, Shipping, Billing And Credit Card Information in to the database
      */
     saveAll: function (request,reply){
+        var response;
+        var id;
         var auth_token = request.headers;
-        console.log('Authorization Token : ' +auth_token.authorization)
+        console.log('Authorization Token : ' +auth_token.authorization);
         var payload = request.payload;
         var lastname = payload.lastname;
         var firstname = payload.firstname;
@@ -114,7 +116,7 @@ module.exports={
         var customername = payload.customername;
         var cardno = payload.cardno;
         var expirydate = payload.expirydate;
-        var cvv = payload.cvv
+        var cvv = payload.cvv;
 
         console.log('checkoutDao :::: saveAll() : lastname=' +lastname +', firstname=' +firstname
             +', email=' +email +', phone=' +phone +', currentcarrier=' +currentcarrier +'shiptype='
@@ -126,25 +128,31 @@ module.exports={
         );
         // create an instance
         var order = Order.build(payload);
-        order.cart_id=auth_token+'';
+        order.cart_id=auth_token.authorization;
         order.creditscorerangetype='SUPER-CREDIT';
         order.store='TMOBILE-ONLINE';
-        console.log(order)
+        console.log(order);
         // persist an instance
         order.save()
-            .error(function(err) {
+            /* .error(function(err) {
                 console.log('Order save error !!! ' + err);
                 reply('Order save error !!! ' + err).code(500);
                 return;
             })
-            /*.success(function() {
+            .success(function() {
                 console.log('Save successful...');
-            });*/
+            }) */
             .then(function (order) {
-                console.log('Save successful...' + order);
-            });
-        var response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, Billing And Credit Card Information in to the database','error': 0};
-        reply(response).code(200);
+                console.log('Save Order Successfully :::: ' + order);
+                id = order.id;
+                console.log('ID :::: ' +id);
+                response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, ' +
+                'Billing And Credit Card Information in to the database',
+                    'error': 0,
+                    'itemsdetails' : [ {itemid: +id }]};
+                reply(response).code(200);
+             });
     },
 
-};
+
+}
