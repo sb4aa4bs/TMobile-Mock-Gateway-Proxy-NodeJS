@@ -195,8 +195,8 @@ module.exports=[
                 }
             },
             validate:{
-                payload:{
-                    lastname:Joi.string().required(),
+                 payload:{
+                     /*lastname:Joi.string().required(),
                     firstname:Joi.string().required(),
                     email:Joi.string().required(),
                     phone:Joi.string().required(),
@@ -216,6 +216,11 @@ module.exports=[
                     cardno:Joi.string().required(),
                     expirydate:Joi.string().required(),
                     cvv:Joi.string().required()
+                    */
+                     cart: Joi.object().required(),
+                     //total: Joi.number().required(),
+                     //items: Joi.object().required(),
+                     customer: Joi.object().required()
                 },
                 headers: Joi.object({
                     'authorization': Joi.string().required()
