@@ -282,12 +282,11 @@ module.exports= {
     /*
      *  Get brand new access token from ELASTIC PATH
      */
-    getNewAccessToken: function (auth_token) {
-
+    getNewAccessToken: function (request,reply) {
+        console.log('CartResource :::: getNewAccessToken()');
         var message = 'ELASTIC PATH getNewAccessToken() failure.!!!';
-        var response = {'message': message, 'error': 500};
-
-        request.post(base_uri + '/cortex/oauth2/tokens',{
+        var responses = {'message': message, 'error': 500};
+        httprequest.post(base_uri + '/cortex/oauth2/tokens',{
             form: {
                 grant_type: 'password',
                 role: 'PUBLIC',
@@ -296,19 +295,13 @@ module.exports= {
                 password: ''
             }
         }, function (err, res, body) {
-
             if (err) {reply(response.code(500)); console.log(message);}
             else {
                 console.log(body);
-                var default_cart = JSON.parse(body);
-                console.log(default_cart["total-quantity"]);
-                console.log(default_cart["self"]);
-                console.log('ELASTIC PATH getNewAccessToken() success..');
-                reply(response).code(200);
+                var accesstokendata = JSON.parse(body);
+                console.log('ELASTIC PATH getNewAccessToken() success.... Access Token : ' +accesstokendata["access_token"] +' Obtained....');
+                reply(accesstokendata["access_token"]).code(200);
             }
         });
-
     },
-
-
 };
