@@ -81,7 +81,7 @@ module.exports={
             +', shipaddress2=' +shipaddress2 +', shipcity=' +shipcity +', shipstate=' +shipstate +', shipzip=' +shipzip
             +', billaddress1=' +billaddress1 +', billaddress2=' +billaddress2 +', billcity=' +billcity,
             +', billstate=' +billstate +', billzip=' +billzip +', customername=' +customername,
-            +', cardno=' +cardno +', expirydate=' +expirydate +', expirydate=' +expirydate);
+            +', cardno=' +cardno +', expirydate=' +expirydate +', cvv=' +cvv);
         //TO DO - SAVE
 
         var response = {'message': 'Successfully Save the Customer Billing Shipping And Credit Card Information in to the database','error': 0};
@@ -124,9 +124,9 @@ module.exports={
             'shipcity=' +shipcity +', shipstate=' +shipstate +', shipzip=' +shipzip
             +', billaddress1=' +billaddress1 +', billaddress2=' +billaddress2 +', billcity=' +billcity,
             +', billstate=' +billstate +', billzip=' +billzip +', customername=' +customername,
-            +', cardno=' +cardno +', expirydate=' +expirydate +', expirydate=' +expirydate
+            +', cardno=' +cardno +', expirydate=' +expirydate +', cvv=' +cvv
         );
-        // create an instance
+        // create an instance of order model
         var order = Order.build(payload);
         order.cart_id=auth_token.authorization;
         order.creditscorerangetype='SUPER-CREDIT';
@@ -152,7 +152,7 @@ module.exports={
                     'itemsdetails' : [ {itemid: +id }]};
                 reply(response).code(200);
              });
-    },
+    }
 
 
-}
+};
