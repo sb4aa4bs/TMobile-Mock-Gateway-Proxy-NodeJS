@@ -125,10 +125,34 @@ module.exports={
             +', billaddress1=' +billaddress1 +', billaddress2=' +billaddress2 +', billcity=' +billcity,
             +', billstate=' +billstate +', billzip=' +billzip +', customername=' +customername,
             +', cardno=' +cardno +', expirydate=' +expirydate +', cvv=' +cvv);
-        //TO DO - SAVE
-
-        var response = {'message': 'Successfully Save the Customer Billing Shipping And Credit Card Information in to the database','error': 0};
-        reply(response).code(200);
+        // create an instance of order model
+        var order = Order.build(payload);
+        order.cart_id=auth_token.authorization;
+        order.store='TMOBILE-ONLINE-STORE';
+        order.creditscorerangetype='SUPER-CREDIT';
+        order.lastname = '';
+        order.firstname = '';
+        order.email = '';
+        order.phone = '';
+        console.log(order);
+        // persist an instance
+        order.save()
+        /* .error(function(err) {
+         console.log('Order save error !!! ' + err);
+         reply('Order save error !!! ' + err).code(500);
+         return;
+         })
+         .success(function() {
+         console.log('Save successful...');
+         }) */
+            .then(function (order) {
+                id = order.id;
+                console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
+                response = {'message': 'Successfully Saved the Customer Billing and Shipping Information in to the database',
+                    'error': 0,
+                    'itemsdetails' : [ {itemid: +id }]};
+                reply(response).code(200);
+            });
     },
 
     /*
