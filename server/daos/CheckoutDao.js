@@ -130,7 +130,7 @@ module.exports={
         var order = Order.build(payload);
         order.cart_id=auth_token.authorization;
         order.creditscorerangetype='SUPER-CREDIT';
-        order.store='TMOBILE-ONLINE';
+        order.store='TMOBILE-ONLINE-STORE';
         console.log(order);
         // persist an instance
         order.save()
@@ -153,6 +153,4 @@ module.exports={
                 reply(response).code(200);
              });
     }
-
-
 };
