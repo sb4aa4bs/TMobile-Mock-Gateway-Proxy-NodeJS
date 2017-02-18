@@ -137,8 +137,11 @@ module.exports={
                 reply('Order save error !!! ' + err).code(500);
                 return;
             })
-            .success(function() {
+            /*.success(function() {
                 console.log('Save successful...');
+            });*/
+            .then(function (order) {
+                console.log('Save successful...' + order);
             });
         var response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, Billing And Credit Card Information in to the database','error': 0};
         reply(response).code(200);
