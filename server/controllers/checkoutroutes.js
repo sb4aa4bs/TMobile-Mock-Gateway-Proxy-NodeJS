@@ -118,21 +118,9 @@ module.exports=[
             },
             validate:{
                 payload:{
-                    shiptype:Joi.string().required(),
-                    shipaddress1:Joi.string().required(),
-                    shipaddress2:Joi.string().required(),
-                    shipcity:Joi.string().required(),
-                    shipstate:Joi.string().required(),
-                    shipzip:Joi.string().required(),
-                    billaddress1:Joi.string().required(),
-                    billaddress2:Joi.string().required(),
-                    billcity:Joi.string().required(),
-                    billstate:Joi.string().required(),
-                    billzip:Joi.string().required(),
-                    customername:Joi.string().required(),
-                    cardno:Joi.string().required(),
-                    expirydate:Joi.string().required(),
-                    cvv:Joi.string().required()
+                    cart: Joi.object().required(),
+                    total: Joi.number().required(),
+                    items: Joi.object().required()
                 },
                 headers: Joi.object({
                     'authorization': Joi.string().required()
