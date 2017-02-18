@@ -20,10 +20,30 @@ module.exports={
         var currentcarrier = payload.currentcarrier;
         console.log('checkoutDao :::: savePersonalInfo() : lastname=' +lastname +', firstname=' +firstname
             +', email=' +email +', phone=' +phone +', currentcarrier=' +currentcarrier);
-        //TO DO - SAVE
-
-        var response = {'message': 'Successfully Saved the Customer Personal Information in to the database','error': 0};
-        reply(response).code(200);
+        // create an instance of order model
+        var order = Order.build(payload);
+        order.cart_id=auth_token.authorization;
+        order.store='TMOBILE-ONLINE-STORE';
+        order.creditscorerangetype='SUPER-CREDIT';
+        console.log(order);
+        // persist an instance
+        order.save()
+        /* .error(function(err) {
+         console.log('Order save error !!! ' + err);
+         reply('Order save error !!! ' + err).code(500);
+         return;
+         })
+         .success(function() {
+         console.log('Save successful...');
+         }) */
+            .then(function (order) {
+                id = order.id;
+                console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
+                response = {'message': 'Successfully Saved the Customer Personal Information in to the database',
+                    'error': 0,
+                    'itemsdetails' : [ {itemid: +id }]};
+                reply(response).code(200);
+            });
     },
 
     /*
@@ -143,9 +163,8 @@ module.exports={
                 console.log('Save successful...');
             }) */
             .then(function (order) {
-                console.log('Save Order Successfully :::: ' + order);
                 id = order.id;
-                console.log('ID :::: ' +id);
+                console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
                 response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, ' +
                 'Billing And Credit Card Information in to the database',
                     'error': 0,
