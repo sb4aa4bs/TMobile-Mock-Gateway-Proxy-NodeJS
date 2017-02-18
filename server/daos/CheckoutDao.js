@@ -264,7 +264,7 @@ module.exports={
                     orderDetails.save();
                 });
                 response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, ' +
-                'Billing And Credit Card Information in to the database',
+                'Billing , Credit Card(order table) and Cart Items(order_details table) information in to the commercedb database',
                     'error': 0,
                     'orderdetails' : [ {orderid: +id }]};
                 reply(response).code(200);
