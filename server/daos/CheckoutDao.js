@@ -1,6 +1,7 @@
 var models  = require('../models');
 var Order = models.order;
 var OrderDetails = models.order_details;
+var ordid;
 Order.hasMany(OrderDetails);
 
 
@@ -203,11 +204,7 @@ module.exports={
             +', cardno=' +cardno +', expirydate=' +expirydate +', cvv=' +cvv
             +', cartId=' +cartId +', total=' +total);
         // create an instance of order model
-        items.forEach(function(value){
-            console.log(value.id);
-            console.log(value.price);
-            console.log(value.tax);
-        });
+
         // var order = Order.build(payload);
         var order = Order.build();
         order.id = '';
@@ -249,7 +246,23 @@ module.exports={
             }) */
             .then(function (order) {
                 id = order.id;
+                ordid = id;
                 console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
+                items.forEach(function(value){
+                    var orderDetails = OrderDetails.build();
+                    orderDetails.id = '';
+                    orderDetails.order_id = ordid;
+                    orderDetails.product_id = value.id
+                    orderDetails.price = value.price
+                    orderDetails.tax = value.tax
+                    orderDetails.createdAt = '';
+                    orderDetails.updatedAt = '';
+                    console.log(value.id);
+                    console.log(value.price);
+                    console.log(value.tax);
+                    console.log(orderDetails);
+                    orderDetails.save();
+                });
                 response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, ' +
                 'Billing And Credit Card Information in to the database',
                     'error': 0,

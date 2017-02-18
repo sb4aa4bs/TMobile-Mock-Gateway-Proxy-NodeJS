@@ -57,6 +57,8 @@ CREATE TABLE `order_details` (
   `product_id` int(11) NOT NULL,
   `price` double NOT NULL,
   `tax` double NOT NULL,
+  `createdAt` varchar(64) DEFAULT NULL,
+  `updatedAt` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
   CONSTRAINT `order_id_fk` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE
