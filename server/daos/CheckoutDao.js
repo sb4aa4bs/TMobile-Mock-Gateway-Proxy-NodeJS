@@ -41,7 +41,7 @@ module.exports={
                 console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
                 response = {'message': 'Successfully Saved the Customer Personal Information in to the database',
                     'error': 0,
-                    'itemsdetails' : [ {itemid: +id }]};
+                    'orderdetails' : [ {orderid: +id }]};
                 reply(response).code(200);
             });
     },
@@ -93,7 +93,7 @@ module.exports={
                 console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
                 response = {'message': 'Successfully Saved the Customer Credit Range Type Information in to the database',
                     'error': 0,
-                    'itemsdetails' : [ {itemid: +id }]};
+                    'orderdetails' : [ {orderid: +id }]};
                 reply(response).code(200);
             });
     },
@@ -150,7 +150,7 @@ module.exports={
                 console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
                 response = {'message': 'Successfully Saved the Customer Billing and Shipping Information in to the database',
                     'error': 0,
-                    'itemsdetails' : [ {itemid: +id }]};
+                    'orderdetails' : [ {orderid: +id }]};
                 reply(response).code(200);
             });
     },
@@ -215,7 +215,7 @@ module.exports={
                 response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, ' +
                 'Billing And Credit Card Information in to the database',
                     'error': 0,
-                    'itemsdetails' : [ {itemid: +id }]};
+                    'orderdetails' : [ {orderid: +id }]};
                 reply(response).code(200);
              });
     }
