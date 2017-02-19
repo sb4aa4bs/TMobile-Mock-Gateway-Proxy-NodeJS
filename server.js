@@ -120,7 +120,7 @@ server.register([
     },
     {
         register: require('hapijs-status-monitor')
-    },
+    }
 
 
     //hapiAuthJWT, inert,vision,require('hapi-swagger'),require('hapijs-status-monitor')

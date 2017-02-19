@@ -11,10 +11,7 @@ module.exports={
     deleteItemFromCart: function(request,response)  {
         cartDao.deleteItemFromCart(request,response);
     },
-    getCart: function(request,response)  {
-        cartDao.getCart(request,response);
-    },
-    getMyCart: function(request,response)  {
-        cartDao.getMyCart(request,response);
+    getCart: function(request, response)  {
+        cartDao.getCart(response);
     }
 };
