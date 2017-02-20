@@ -1,4 +1,5 @@
-var productDao = require('../epbroker/ProductResource');  //'../daos/ProductDao' '../epbroker/ProductResource' //RSG 02/12/2017 added this service
+var productResource = require('../epbroker/ProductResource');   // 2 calls into ElasticPath, 1 call returns data from our DAO
+var productDao = require('../daos/ProductDao');
 var JWT   = require('jsonwebtoken');
 var decoded;
 module.exports={
@@ -7,11 +8,11 @@ module.exports={
         productDao.findAllProducts(response);
     },
     getProductById: function(request,response)  {
-        productDao.getProductById(request,response);
+        productResource.getProductById(request,response);
     },
 
     findProductsByKeyWord : function(request,response) {
-        productDao.searchProductByKeyword(request,response);
+        productResource.searchProductByKeyword(request,response);
     }
 
 };
