@@ -1,16 +1,17 @@
 /**
  * Created by rghosh on 2/20/2017.
  */
-const nodemailer = require('nodemailer-plugin-inline-base64');
+const nodemailer = require('nodemailer');
 
 module.exports= {
 
-    sendMail2Customer: function (order, reply) {
+    sendMail2Customer: function (order) {
+        console.log('sendMail2Customer')
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 user: 'robin.ghos@gmail.com',
-                pass: 'Panaji9091!'
+                pass: 'Panaji9091'
             }
         });
         var mailOptions = {
@@ -31,7 +32,7 @@ module.exports= {
                 return console.log(error);
                 reply(error);
             }
-            reply('Sent mail').code(200);
+            console.log('Mail sent!');
         });
     }
 }
