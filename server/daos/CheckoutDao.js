@@ -264,12 +264,12 @@ module.exports={
                     console.log(orderDetails);
                     orderDetails.save();
                 });
-                console.log('Successfully saved Cart and Customer object wiht order_id = ' + order_id);
-                response = {'order_id': orderid };
+                console.log('Successfully saved Cart and Customer object wiht order_id = ' + id);
+                response = {'order_id': id };
                 reply(response).code(200);
 
                 // Send email to customer
-                utils.sendMail2Customer(order);
+                utils.sendMail2Customer(order, cart);
 
                 // Add order now to ELASTIC PATH
                 //TODO: RSG/UMESH
