@@ -31,6 +31,7 @@
     "juice": "^4.0.2",
     "mysql": "^2.11.1",
     "nodemailer-plugin-inline-base64": "^2.0.0",
+    "nodemailer-smtp-transport": "^2.7.2",
     "nodemailer-stub-transport": "^1.1.0",
     "path": "^0.12.7",
     "redis-connection": "^5.0.0",
