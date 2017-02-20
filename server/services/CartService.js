@@ -1,17 +1,20 @@
-var cartDao = require('../epbroker/CartResource');  //use this '../daos/CartResource'//RSG 02/12/2017 added this service
+var cartResource = require('../epbroker/CartResource');  //use this '../daos/CartResource'//RSG 02/12/2017 added this service
 
 module.exports={
 
+    getNewAccessToken: function(request,reply)  {
+        cartResource.getNewAccessToken(function (token) {reply(token).code(200);});
+    },
     addItemToCart: function(request,response)  {
-        cartDao.addItemToCart(request,response);
+        cartResource.addItemToCart(request,response);
     },
     updateItemInCart: function(request,response)  {
-        cartDao.updateItemInCart(request,response);
+        cartResource.updateItemInCart(request,response);
     },
     deleteItemFromCart: function(request,response)  {
-        cartDao.deleteItemFromCart(request,response);
+        cartResource.deleteItemFromCart(request,response);
     },
     getCart: function(request, response)  {
-        cartDao.getCart(response);
+        cartResource.getCart(response);
     }
 };
