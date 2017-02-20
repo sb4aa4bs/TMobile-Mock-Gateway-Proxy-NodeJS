@@ -1,5 +1,7 @@
 var request = require('request');
 var JWT = require('jsonwebtoken');
+var resource = require('../epbroker/productresource');
+
 var decoded;
 var base_uri = 'http://ec2-35-164-110-172.us-west-2.compute.amazonaws.com:9080';
 var auth_token = 'a1d2fa48-caf2-4b46-9fc6-a3c73130568c';//'db73a79d-4a9b-42fc-ac22-3ec929d14b02';
@@ -145,7 +147,8 @@ module.exports = {
                                 var uriArray = itemIdUri.split('/');
                                 var itemId = uriArray[3];
                                 console.log(itemId);
-                                module.exports.getItem(auth_token, itemId, 'mobee', function (product) {
+                                //module.exports.getItem(auth_token, itemId, 'mobee', function (product) {
+                                    resource.getItem(itemId, 'mobee', function (product) {
                                     productList.push(product);
                                     console.log(product);
                                     cart['items'] = productList;
@@ -259,10 +262,11 @@ module.exports = {
     /*
      *  Get brand new access token from ELASTIC PATH
      */
-    getNewAccessToken: function (reply) {
+    getNewAccessToken: function (callback) {
         var message = 'ELASTIC PATH getNewAccessToken() failure!!!';
         var response = {'message': message, 'error': 500};
 
+        console.log('In CartResource getNewAccessToken(): ');
         request.post(base_uri + '/cortex/oauth2/tokens', {
             form: {
                 grant_type: 'password',
@@ -273,70 +277,18 @@ module.exports = {
             }
         }, function (err, res, body) {
             if (err) {
-                reply(response.code(500));
+                //reply(response.code(500));
                 console.log(message);
             }
             else {
                 console.log(body);
                 var auth_res = JSON.parse(body);
-                response = auth_res.access_token;
-                console.log('ELASTIC PATH getNewAccessToken() success..');
-                reply(response).code(200);
+                access_token = auth_res.access_token;
+                console.log('ELASTIC PATH getNewAccessToken() success..' + access_token);
+                callback(access_token);
             }
         });
     },
 
-    getItem: function (auth_token, itemId, storeId, callback) {
 
-        console.log('Starting getItem..........');
-        var Product = {};
-
-        Product['itemId'] = itemId;
-
-        request(base_uri + '/cortex/availabilities/items/' + storeId + '/' + itemId,
-            {
-                json: true, method: 'GET',
-                headers: {'Authorization': 'bearer ' + auth_token, 'Content-type': 'application/json'}
-            },
-            function (err, res, body) {
-                Product['availability'] = body['state'];
-                // Display Name of Item
-
-                request(base_uri + '/cortex/itemdefinitions/' + storeId + '/' + itemId,
-                    {
-                        json: true, method: 'GET',
-                        headers: {'Authorization': 'bearer ' + auth_token, 'Content-type': 'application/json'}
-                    },
-                    function (err, res, body) {
-                        Product['display-name'] = body['display-name'];
-                        // Code of Item
-
-                        request(base_uri + '/cortex/lookups/items/' + storeId + '/' + itemId,
-                            {
-                                json: true, method: 'GET',
-                                headers: {'Authorization': 'bearer ' + auth_token, 'Content-type': 'application/json'}
-                            },
-                            function (err, res, body) {
-                                Product['code'] = body['code'];
-
-                                // Price of Item
-
-                                request(base_uri + '/cortex/prices/items/' + storeId + '/' + itemId,
-                                    {
-                                        json: true, method: 'GET',
-                                        headers: {
-                                            'Authorization': 'bearer ' + auth_token,
-                                            'Content-type': 'application/json'
-                                        }
-                                    },
-                                    function (err, res, body) {
-                                        Product['purchase-price'] = body['purchase-price'];
-                                        Product['list-price'] = body['list-price'];
-                                        callback(Product);
-
-                                    });
-                            });
-                    });
-            });
-    }
 };
