@@ -110,7 +110,7 @@ module.exports = {
         Product['color'] = '';
         Product['skuid'] = ''
         Product['picture'] = '';
-        Product['active'] = 'Yes';
+        Product['active'] = true;
         Product['contract'] = '24 months';
         Product['store'] = 'T-Mobile';
 
