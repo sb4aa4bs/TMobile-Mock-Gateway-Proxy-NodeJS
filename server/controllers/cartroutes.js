@@ -3,6 +3,25 @@ var cartservice = require('../services/cartservice');  //RSG 02/13/2017 added a 
 var Joi = require('joi');
 module.exports = [
     {
+        method:'GET',
+        path:'/elasticpath/access_token',
+        config: {
+            auth: false,
+            handler: cartservice.getNewAccessToken,
+            description: 'Get new token from ELASTIC PATH',
+            notes: 'Get new token from ELASTIC PATH',
+            tags: ['api'],
+            plugins: {
+                'hapi-swagger': {
+                    responseMessages: [
+                        {code: 400, message: 'Bad Request'},
+                        {code: 500, message: 'Internal server error'}
+                    ]
+                }
+            }
+        }
+    },
+    {
         method: 'GET',
         path: '/cart/',
         config: {
