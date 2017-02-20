@@ -1,4 +1,5 @@
 var models  = require('../models');
+var utils  = require('../utility/mail');
 var Order = models.order;
 var OrderDetails = models.order_details;
 var ordid;
@@ -263,11 +264,17 @@ module.exports={
                     console.log(orderDetails);
                     orderDetails.save();
                 });
-                response = {'message': 'Successfully Saved ALL the Customer Personal Information, Shipping, ' +
-                'Billing , Credit Card(order table) and Cart Items(order_details table) information in to the commercedb database',
-                    'error': 0,
-                    'orderdetails' : [ {orderid: +id }]};
+                console.log('Successfully saved Cart and Customer object wiht order_id = ' + order_id);
+                response = {'order_id': orderid };
                 reply(response).code(200);
+
+                // Send email to customer
+                utils.sendMail2Customer(order);
+
+                // Add order now to ELASTIC PATH
+                //TODO: RSG/UMESH
+
+
              });
     }
 };
