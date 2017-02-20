@@ -4,14 +4,6 @@
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 
-/*var transport = nodemailer.createTransport(smtpTransport({
-    service: 'gmail',
-    auth: {
-        user: '*******@gmail.com',
-        pass: '*****password'
-    }
-}));*/
-
 module.exports= {
 
     sendMail2Customer: function (order, cart) {
