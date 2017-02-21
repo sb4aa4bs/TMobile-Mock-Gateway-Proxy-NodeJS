@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     product_id: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.STRING,
       allowNull: false
     },
     price: {
