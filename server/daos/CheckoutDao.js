@@ -280,9 +280,23 @@ module.exports={
                 var product_id_2 = "qgqvhirug4=";
 
                 resource.getNewAccessToken(function (token) {
-                    console.log("token id " + token);
-                    resource.addEPItemToCart(token, product_id_1, 1, function (data) {
+                     console.log("token id " + token);
+                     resource.addEPItemToCart(token, product_id_1, 1, function (data) {
                         resource.addEPItemToCart(token, product_id_2, 1, function (data) {
+                            //
+                            var cartId = token; // Currently Hard Coded, Assume Umesh might have to get it from EP, invoking the EP get Access Token Cortex API....
+                            order.update(
+                                // Set Attribute values
+                                { cart_id:cartId},
+                                // Where clause / criteria
+                                { _id : ordid }
+                            ).then(function() {
+                                console.log("Order with id=" +ordid +",updated successfully..");
+                            }).error(function(err) {
+                                console.log("Order with id=" +ordid +" update failed");
+                                //handle error here
+                            });
+
                         });
                     });
                 });
