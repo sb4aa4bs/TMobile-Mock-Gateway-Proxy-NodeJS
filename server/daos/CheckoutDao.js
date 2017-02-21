@@ -166,7 +166,8 @@ module.exports={
         var id;
         var auth_token = request.headers;
         var payload = request.payload;
-        var customer = payload.customer;
+        var customer = payload.customer;        // get to the customer object from the payload
+
         var lastname = customer.lastname;
         var firstname = customer.firstname;
         var email = customer.email;
@@ -189,10 +190,12 @@ module.exports={
         var creditreportusagetype = customer.creditreportusagetype;
         var store = customer.store;
         var cvv = customer.cvv;
-        var cart = payload.cart;
-        var cartId = cart.id;
+
+        var cart = payload.cart;                // get the card object
+        var cartId = cart.id;                   // the client can send us their cart id, which is currently a don't care item
         var total = cart.total;
-        var items = cart.items;
+        var items = cart.items;                 // reference to cart items which is a item list
+
         //console.log('AUTHORIZATION TOKEN : ' +auth_token.authorization);
         //console.log("CUSTOMER DATA :::: " +customer);
         //console.log("CART DATA :::: " +cart);
@@ -209,8 +212,8 @@ module.exports={
 
         // var order = Order.build(payload);
         var order = Order.build();
-        order.id = '';
-        order.cart_id = cartId; //RSG ??auth_token.authorization;
+        order.id = '';          // TODO: Bharat why? we should not touch this field
+        order.cart_id = cartId; //  TODO: RSG ?? not required because we will come back later and overwrite with the token
         order.lastname = lastname;
         order.firstname = firstname;
         order.phone = phone;
@@ -232,57 +235,57 @@ module.exports={
         order.cardno = cardno;
         order.expirydate = expirydate;
         order.cvv = cvv;
-        order.createdAt = '';
-        order.updatedAt = '';
+        order.createdAt = '';       //TODO: Bharat why ??
+        order.updatedAt = '';       //TODO: Bharat why ??
         order.store = store;
         console.log(order);
-        // persist an instance
+        // persist the order
+
         order.save()
-            /* .error(function(err) {
-                console.log('Order save error !!! ' + err);
-                reply('Order save error !!! ' + err).code(500);
-                return;
-            })
-            .success(function() {
-                console.log('Save successful...');
-            }) */
+
             .then(function (order) {
-                id = order.id;
+                id = order.id;         //TODO: Bharat you wrote to a global
                 ordid = id;
-                console.log('Order id ' +id +' Saved Successfully in to the DB :::: ' + order);
+                console.log('Order id ' +id +' created in the db...');
+
+                /*
+                  Send mail first since we have a order id
+                 */
+                utils.sendMail2Customer(order, cart);
+
+                var ep_productIds = [];
                 items.forEach(function(value){
                     var orderDetails = OrderDetails.build();
-                    orderDetails.id = '';
+                    //orderDetails.id = '';    //TODO: Bharat ???
                     orderDetails.order_id = ordid;
-                    orderDetails.product_id = value.id
+                    orderDetails.product_id = value.id    // id is really product id or itemid in EP
+                    ep_productIds.push(value.id);
                     orderDetails.price = value.price
-                    orderDetails.tax = '2.6' ;//?? RSG value.tax
+                    orderDetails.tax = '7.0' ;
+                    /*
                     orderDetails.createdAt = '';
-                    orderDetails.updatedAt = '';
-                    console.log(value.id);
-                    console.log(value.price);
-                    console.log(value.tax);
-                    console.log(orderDetails);
-                    orderDetails.save();
+                    orderDetails.updatedAt = '';*/
+                    console.log('Object before the save=' + orderDetails);
+                    orderDetails.save().then(function (order_detail) {
+                        console.log('Order detail getting created with id  = ' + order_detail.id);
+                    });
                 });
-                console.log('Successfully saved Cart and Customer object wiht order_id = ' + id);
+
+                // Send the response to the customer
                 response = {'order_id': id };
                 reply(response).code(200);
 
-                // Send email to customer
-                utils.sendMail2Customer(order, cart);
+                /*
+                  We can continue processing because of nodejs main thread
+                 */
 
-                // Add order now to ELASTIC PATH
-                //TODO: RSG/UMESH
-
-                // Add order now to ELASTIC PATH
-                var product_id_1 = "qgqvhirugu=";
-                var product_id_2 = "qgqvhirug4=";
-
+                console.log('We will add the following itemId to ELASTIC PATH');
+                console.log('Item id=' + ep_productIds[0]);
+                console.log('Item id=' + ep_productIds[1]);
                 resource.getNewAccessToken(function (token) {
                      console.log("token id " + token);
-                     resource.addEPItemToCart(token, product_id_1, 1, function (data) {
-                        resource.addEPItemToCart(token, product_id_2, 1, function (data) {
+                     resource.addEPItemToCart(token, ep_productIds[0], 1, function (data) {
+                        resource.addEPItemToCart(token,ep_productIds[1], 1, function (data) {
                             //
                             var cartId = token; // Currently Hard Coded, Assume Umesh might have to get it from EP, invoking the EP get Access Token Cortex API....
                             order.update(
