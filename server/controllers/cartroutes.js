@@ -23,7 +23,7 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/cart/',
+        path: '/cart/{cart_id}',
         config: {
             auth: false,
             handler: cartservice.getCart,
@@ -38,10 +38,10 @@ module.exports = [
                     ]
                 }
             },
-            validate: {
-                /*headers: Joi.object({
-                    'authorization': Joi.string().required()
-                }).unknown()*/
+            validate:{
+                params:{
+                    cart_id:Joi.string().required()  //removed aplhanumeric.
+                }
             }
         }
     },
