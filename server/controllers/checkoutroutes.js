@@ -184,35 +184,15 @@ module.exports=[
             },
             validate:{
                  payload:{
-                     /*lastname:Joi.string().required(),
-                    firstname:Joi.string().required(),
-                    email:Joi.string().required(),
-                    phone:Joi.string().required(),
-                    currentcarrier:Joi.string().required(),
-                    shiptype:Joi.string().required(),
-                    shipaddress1:Joi.string().required(),
-                    shipaddress2:Joi.string().required(),
-                    shipcity:Joi.string().required(),
-                    shipstate:Joi.string().required(),
-                    shipzip:Joi.string().required(),
-                    billaddress1:Joi.string().required(),
-                    billaddress2:Joi.string().required(),
-                    billcity:Joi.string().required(),
-                    billstate:Joi.string().required(),
-                    billzip:Joi.string().required(),
-                    customername:Joi.string().required(),
-                    cardno:Joi.string().required(),
-                    expirydate:Joi.string().required(),
-                    cvv:Joi.string().required()
-                    */
+
                      cart: Joi.object().required(),
                      //total: Joi.number().required(),
                      //items: Joi.object().required(),
                      customer: Joi.object().required()
-                },
+                }/*,
                 headers: Joi.object({
                     'authorization': Joi.string().required()
-                }).unknown()
+                }).unknown()*/
             },
 
             description:'Stores the Personal Information, Shipping, Billing And Credit Card Information on the commercedb',
