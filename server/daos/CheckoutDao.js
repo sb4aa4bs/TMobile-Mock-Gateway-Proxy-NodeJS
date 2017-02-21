@@ -212,7 +212,7 @@ module.exports={
 
         // var order = Order.build(payload);
         var order = Order.build();
-        order.id = '';          // TODO: Bharat why? we should not touch this field
+
         order.cart_id = cartId; //  TODO: RSG ?? not required because we will come back later and overwrite with the token
         order.lastname = lastname;
         order.firstname = firstname;
@@ -235,8 +235,6 @@ module.exports={
         order.cardno = cardno;
         order.expirydate = expirydate;
         order.cvv = cvv;
-        order.createdAt = '';       //TODO: Bharat why ??
-        order.updatedAt = '';       //TODO: Bharat why ??
         order.store = store;
         console.log(order);
         // persist the order
@@ -262,9 +260,6 @@ module.exports={
                     ep_productIds.push(value.id);
                     orderDetails.price = value.price
                     orderDetails.tax = '7.0' ;
-                    /*
-                    orderDetails.createdAt = '';
-                    orderDetails.updatedAt = '';*/
                     console.log('Object before the save=' + orderDetails);
                     orderDetails.save().then(function (order_detail) {
                         console.log('Order detail getting created with id  = ' + order_detail.id);
