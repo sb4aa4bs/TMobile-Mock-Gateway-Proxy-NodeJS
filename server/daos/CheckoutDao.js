@@ -210,7 +210,7 @@ module.exports={
         // var order = Order.build(payload);
         var order = Order.build();
         order.id = '';
-        order.cart_id = auth_token.authorization;
+        order.cart_id = cartId; //RSG ??auth_token.authorization;
         order.lastname = lastname;
         order.firstname = firstname;
         order.phone = phone;
@@ -256,7 +256,7 @@ module.exports={
                     orderDetails.order_id = ordid;
                     orderDetails.product_id = value.id
                     orderDetails.price = value.price
-                    orderDetails.tax = value.tax
+                    orderDetails.tax = '2.6' ;//?? RSG value.tax
                     orderDetails.createdAt = '';
                     orderDetails.updatedAt = '';
                     console.log(value.id);
