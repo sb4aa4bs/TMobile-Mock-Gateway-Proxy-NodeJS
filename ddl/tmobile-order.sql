@@ -54,7 +54,7 @@ DROP TABLE IF EXISTS `order_details`;
 CREATE TABLE `order_details` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `product_id` varchar(32) NOT NULL,
   `price` double NOT NULL,
   `tax` double NOT NULL,
   `createdAt` varchar(64) DEFAULT NULL,
