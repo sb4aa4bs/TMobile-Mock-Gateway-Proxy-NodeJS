@@ -1,5 +1,5 @@
 var authentication = require('../controllers/authentication');
-var cartservice = require('../services/cartservice');  //RSG 02/13/2017 added a service
+var cartservice = require('../services/CartService');  //RSG 02/13/2017 added a service
 var Joi = require('joi');
 module.exports = [
     {

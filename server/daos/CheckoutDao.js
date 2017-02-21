@@ -1,6 +1,6 @@
 var models  = require('../models');
 var utils  = require('../utility/mail');
-var resource = require('../epbroker/cartresource');
+var resource = require('../epbroker/CartResource');
 var Order = models.order;
 var OrderDetails = models.order_details;
 var ordid;

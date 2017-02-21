@@ -1,6 +1,6 @@
 var request = require('request');
 var JWT = require('jsonwebtoken');
-var resource = require('../epbroker/productresource');
+var resource = require('../epbroker/ProductResource');
 
 var decoded;
 var base_uri = 'http://ec2-35-164-110-172.us-west-2.compute.amazonaws.com:9080';

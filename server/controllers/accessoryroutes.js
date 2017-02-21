@@ -1,4 +1,4 @@
-var accessoryService = require('../services/accessoryservice');  //RSG 02/13/2017 added a service
+var accessoryService = require('../services/AccessoryService');  //RSG 02/13/2017 added a service
 var Joi= require('joi');
 module.exports=[
     {
