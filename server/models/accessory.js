@@ -8,13 +8,9 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true
         },
-        user_id: {
-            type: DataTypes.INTEGER(11),
-            allowNull: false,
-            references: {
-                model: 'user',
-                key: 'id'
-            }
+        epid: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING,
