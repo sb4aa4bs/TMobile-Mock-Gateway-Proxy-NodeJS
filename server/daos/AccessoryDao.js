@@ -18,6 +18,22 @@ module.exports={
 	},
 
 
+	/*
+	 *  Get accessory by id. We might pull other child objects too
+	 */
+    getAccessoryById: function (request,reply){
+        var id = request.params.id;
+        Accessory.findAll({where:{$and:[{id:id}]},include: [models.accessory_details]})
+            .then(function(product){
+                console.log('AccessoryDao: getAccessoryById() success, object : ' + accessory);
+                reply(accessory).code(200);
+            })
+            .catch(function(error){
+                console.error('AccessoryDao: getAccessoryById() ERROR : ' + error);
+                reply(error).code(500);
+            });
+    },
+
 
     /*
      *  Find/Search accessory by criteria. Sends response from here

@@ -6,6 +6,9 @@ module.exports={
     findAllAccessories: function(request,response)  {
         accessoryDao.findAllAccessories(response);
     },
+    getAccessoryById: function(request,response)  {
+        accessoryDao.getAccessoryById(request,response);
+    },
 
     findAccessoriesBySku: function(request,response)  {
         accessoryDao.findAccessoriesBySku(request,response);

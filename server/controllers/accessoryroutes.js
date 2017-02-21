@@ -17,6 +17,36 @@ module.exports=[
                         {code: 500, message: 'Internal server error'}
                     ]
                 }
+            }/*,
+             headers: Joi.object({
+             'authorization': Joi.string().required()
+             }).unknown()*/
+        }
+    },
+    {
+        method:'GET',
+        path:'/accessories/details/{id}',
+        config:{
+            auth:false,
+            handler:accessoryService.getAccessoryById,
+            description: 'Get details about a accessory with id from the database',
+            notes: 'Get details about a accessory, try to get all attributes from the database',
+            tags: ['api'],
+            plugins:{
+                'hapi-swagger':{
+                    responseMessages:[
+                        {code:400,message:'Bad Request'},
+                        {code:500,message:'Internal server error'}
+                    ]
+                }
+            },
+            validate:{
+                params:{
+                    id:Joi.string().required()  //removed aplhanumeric.
+                }/*,
+                 headers: Joi.object({
+                 'authorization': Joi.string().required()
+                 }).unknown()*/
             }
         }
     },
