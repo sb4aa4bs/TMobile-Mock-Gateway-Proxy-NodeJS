@@ -8,7 +8,7 @@ module.exports={
         productDao.findAllProducts(response);
     },
     getProductById: function(request,response)  {
-        productResource.getProductById(request,response);
+        productDao.getProductById(request,response);
     },
 
     findProductsByKeyWord : function(request,response) {
