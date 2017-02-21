@@ -16,10 +16,10 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `accessory`
 --
-
+USE demodb;
 CREATE TABLE IF NOT EXISTS `accessory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `epid` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `retail_price` double NOT NULL,
@@ -33,8 +33,7 @@ CREATE TABLE IF NOT EXISTS `accessory` (
   `active` tinyint(1) NOT NULL,
   `contract` text NOT NULL,
   `store` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
@@ -58,26 +57,35 @@ CREATE TABLE IF NOT EXISTS `accessory_details` (
 -- --------------------------------------------------------
 
 --
--- Dumping data for table `product`
+-- Dumping data for table `accessory`
 --
+INSERT INTO `accessory` (`id`, `epid`, `name`, `description`, `retail_price`, `sale_price`, `promotion`, `size`, `configuration`, `skuid`, `active`, `picture`, `contract`, `store`, `color`) VALUES
+(1, 'qgqvhirugu=', 'SAMSUNG Evo Plus 64 GB ', 'Capacity 64 GB MicroSDXC Class 10 Read Speed: 80 MB/s', 1699, 1389, 1, '', 'Micro SD card', '45-001', 1, 'http://s7d2.scene7.com/is/image/SamsungUS/Pdpdefault-mb-mc32da-am-600x600-C1-052016?$product-details-jpg$', 'none', 'IN', 'white'),
+(2, 'qgqvhirugu=', 'Sennheiser CX213 Headphones  ', 'Canalphone Type:In-the-ear Compatible With: Mobile, Tablet', 1290, 949, 1, '', 'In ear head phones', '46-001', 1, 'http://cdn1.expertreviews.co.uk/sites/expertreviews/files/images/dir_320/er_photo_160069.jpg', 'none', 'IN', 'Black'),
+(3, 'qgqvhirugu=', 'Lightning to USB Cable (2m)\r\n', 'This 2-meter USB 2.0 cable connects your iPhone, iPad, or iPod with Lightning connector to your computerâ€™s USB port for syncing and charging. Or you can connect to the Apple USB Power Adapter for convenient charging from a wall outlet.*\r\n            ', 29, 27, 1, '2 Meter', '', '47-001', 1, 'https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/M/D8/MD819/MD819?wid=572&hei=572&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=1470090009525', 'No', 'US', 'White');
 
-INSERT INTO `accessory` (`id`, `user_id`, `name`, `description`, `retail_price`, `sale_price`, `promotion`, `size`, `configuration`, `color`, `skuid`, `picture`, `active`, `contract`, `store`) VALUES
-(1, 1, 'SAMSUNG High Quality HeadPhone', 'Best wireless headset.', 69, 40, 1, 'M', '32GB', 'Gold', '45', 'https://rukminim1.flixcart.com/image/832/832/mobile/v/z/x/samsung-galaxy-on-nxt-sm-g610fzdgins-original-imaenkzvmnyf7sby.jpeg?q=70', 1, '1 year', 'US'),
-(2, 1, 'iPhone 6s', 'Best iPhone Quality HeadSet', 49, 49, 1, 'M', '32 GB', 'Rose Gold', '46', 'https://rukminim1.flixcart.com/image/832/832/mobile/g/m/8/apple-iphone-6s-mn122hn-a-original-imaen3f3ubsf8zn3.jpeg?q=70', 1, '1 year', 'US');
 
 -- --------------------------------------------------------
 
 
--- Dumping data for table `product_details`
+-- Dumping data for table `accessory_details`
+--
+INSERT INTO `accessory_details` (`id`, `accessory_id`, `more_description`, `warranty`, `processor`, `vendor`, `store_num`) VALUES
+(1, 1, '490 mins of Full HD Video or 1050 mins of HD Video or 15330 Songs, Save Over 5470 Photos, EMC (FCC, CE, VCCI, NATA) Certified, Smartphone, Tablet, Camera, Full HD Video Recording Support. Minimum Storage Temperature: -407deg;C, Resist Magnetic Fields of upto 15000 Gauss, Can Survive Upto 72 Hours in Seawater', '10 Year Limited Warranty', 'xww', 'SAMSUNG', 'IN'),
+(2, 2, 'In the Ear Headphone, Wired Connectivity, Canalphone, 3.5 mm Headphone Jack', '2 Year Warranty', 'err', 'Sennheiser', 'IN');
+
+
+--
+-- Constraints for table `accessory`
 --
 
-INSERT INTO `accessory_details` (`id`, `accessory_id`, `more_description`, `warranty`, `processor`, `vendor`, `store_num`) VALUES
-(1, 1, 'Accessory 1 details.', '1 year', 'Exynos 7870 Octa Core 1.6 GHz', 'SAMSUNG', 'US'),
-(2, 2, 'Accessory 2 details.', '1 year', 'A9 Chip with 64-bit Architecture and M9 Motion Co-processor 1.84 GHz', 'Apple', 'US');
 
-
+--
+-- Constraints for table `accessory_details`
+--
 ALTER TABLE `accessory_details`
-  ADD CONSTRAINT `accessory_fk` FOREIGN KEY (`accessory_id`) REFERENCES `accessory` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `accessory_product_fk` FOREIGN KEY (`accessory_id`) REFERENCES `accessory` (`id`) ON DELETE CASCADE;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
