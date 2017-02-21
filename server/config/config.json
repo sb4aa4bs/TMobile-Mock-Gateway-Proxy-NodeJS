@@ -2,7 +2,7 @@
   "development": {
     "username": "ep",
     "password": "ep",
-    "database": "commercedb",
+    "database": "demodb",
     "host": "localhost",
     "dialect": "mysql"
   },
