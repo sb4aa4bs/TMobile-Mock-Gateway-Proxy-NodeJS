@@ -24,7 +24,7 @@ module.exports={
     getAccessoryById: function (request,reply){
         var id = request.params.id;
         Accessory.findAll({where:{$and:[{id:id}]},include: [models.accessory_details]})
-            .then(function(product){
+            .then(function(accessory){
                 console.log('AccessoryDao: getAccessoryById() success, object : ' + accessory);
                 reply(accessory).code(200);
             })
