@@ -13,7 +13,9 @@ module.exports = {
         var nitems = request.payload.nitems;
         console.log('Cart Dao: add item with item_id=' + item_id + ',quantity =' + nitems);
         //console.log('Cart Dao: getCart() for card_id : ' + cart_id);
-        module.exports.addEPItemToCart(auth_token, item_id, nitems, reply);
+        module.exports.addEPItemToCart(auth_token, item_id, nitems, function(data){
+            reply(data).code(200);
+        });
     },
 
     updateItemInCart: function (request, reply) {
@@ -36,12 +38,13 @@ module.exports = {
     /*
      *  id of the cart needs to be passed as a query, in our case it is a auth-token
      */
-    getCart: function (reply) {
-        console.log('Cart Dao: getCart() for id : ' + auth_token);
+    getCart: function (request,reply) {
+        var cart_id=request.params.cart_id;
+        //console.log('Cart Dao: getCart() for cart_id : ' + cart_id);
         // make call to ELASTIC PATH
-        module.exports.getEPCart(auth_token, function (data) {
+        module.exports.getEPCart(cart_id,function (data) {
             reply(data).code(200);
-            console.log('Reply' + JSON.stringify(data));
+            //console.log('Reply' + JSON.stringify(data));
         });
     },
 
@@ -70,7 +73,7 @@ module.exports = {
                 console.log(body.links);
                 console.log(body.quantity);
                 console.log('ELASTIC PATH addCart() success..');
-                callback(body).code(200);
+                callback(body);
             }
         });
     },
@@ -136,23 +139,27 @@ module.exports = {
                     callback(cart);
                 } else {
                     var lineItemsZoom = cart_lineitems["_element"];
-
+                    var lineItems = 0;
                     for (var i = 0; i < lineItemsZoom.length; i++) {
                         var lineItemDetails = lineItemsZoom[i];
                         var lineItemDetailLinks = lineItemDetails['links'];
+                        var counter = 0;
                         for (var detailLink in lineItemDetailLinks) {
                             var itemIdUri = lineItemDetailLinks[detailLink].uri;
                             console.log('Item ID URI:' + itemIdUri);
                             if (lineItemDetailLinks[detailLink].rel == 'item' && itemIdUri.indexOf('/items/mobee/') > -1) {
+                                lineItems = lineItems + 1;
                                 var uriArray = itemIdUri.split('/');
                                 var itemId = uriArray[3];
                                 console.log(itemId);
                                 //module.exports.getItem(auth_token, itemId, 'mobee', function (product) {
                                     resource.getItem(itemId, 'mobee', function (product) {
+                                        counter = counter +1 ;
                                     productList.push(product);
                                     console.log(product);
+                                    if(counter === lineItems){
                                     cart['items'] = productList;
-                                    callback(cart);
+                                    callback(cart); }
                                 });
                                 console.log(productList + '\n');
                                 break;

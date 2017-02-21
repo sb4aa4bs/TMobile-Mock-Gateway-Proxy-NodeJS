@@ -1,5 +1,6 @@
 var models  = require('../models');
 var utils  = require('../utility/mail');
+var resource = require('../epbroker/cartresource');
 var Order = models.order;
 var OrderDetails = models.order_details;
 var ordid;
@@ -274,7 +275,17 @@ module.exports={
                 // Add order now to ELASTIC PATH
                 //TODO: RSG/UMESH
 
+                // Add order now to ELASTIC PATH
+                var product_id_1 = "qgqvhirugu=";
+                var product_id_2 = "qgqvhirug4=";
 
+                resource.getNewAccessToken(function (token) {
+                    console.log("token id " + token);
+                    resource.addEPItemToCart(token, product_id_1, 1, function (data) {
+                        resource.addEPItemToCart(token, product_id_2, 1, function (data) {
+                        });
+                    });
+                });
              });
     }
 };

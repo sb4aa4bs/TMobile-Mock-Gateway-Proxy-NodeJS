@@ -15,6 +15,6 @@ module.exports={
         cartResource.deleteItemFromCart(request,response);
     },
     getCart: function(request, response)  {
-        cartResource.getCart(response);
+        cartResource.getCart(request, response);
     }
 };
