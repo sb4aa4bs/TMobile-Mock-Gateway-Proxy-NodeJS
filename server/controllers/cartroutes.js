@@ -38,10 +38,13 @@ module.exports = [
                     ]
                 }
             },
-            validate: {
+            validate:{
+                params:{
+                    cart_id:Joi.string().required()  //removed aplhanumeric.
+                }
                 /*headers: Joi.object({
-                    'authorization': Joi.string().required()
-                }).unknown()*/
+                 'authorization': Joi.string().required()
+                 }).unknown()*/
             }
         }
     },
