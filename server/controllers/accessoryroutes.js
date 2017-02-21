@@ -1,4 +1,4 @@
-var accessoryservice = require('../services/accessoryservice');  //RSG 02/13/2017 added a service
+var accessoryService = require('../services/accessoryservice');  //RSG 02/13/2017 added a service
 var Joi= require('joi');
 module.exports=[
     {
@@ -6,7 +6,7 @@ module.exports=[
         path: '/accessories',
         config: {
             auth: false,
-            handler: accessoryservice.findAllAccessories,
+            handler: accessoryService.findAllAccessories,
             description: 'Get all accessories',
             notes: 'Returns all the accessories from the database',
             tags: ['api'],
@@ -55,7 +55,7 @@ module.exports=[
         path: '/accessories/{sku}',
         config: {
             auth: false,
-            handler: accessoryservice.findAccessoriesBySku,
+            handler: accessoryService.findAccessoriesBySku,
             description: 'Get all accessories matching a sku',
             notes: 'Returns all the accessories from the database matching a sku',
             tags: ['api'],
